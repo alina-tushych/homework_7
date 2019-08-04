@@ -1,0 +1,7 @@
+.rebar/*
+ebin/*
+logs/*
+test/*.beam
+deps/*
+
+
