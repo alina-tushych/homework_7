@@ -14,14 +14,14 @@ init(#{method := <<"POST">>} = Req0, Opts) ->
     {ok, Req, Opts}.
 
 
-request_fun(#{action := <<"insert">>} = DataMap) ->
+request_fun(#{<<"action">> := <<"insert">>} = DataMap) ->
     Key = maps:get(<<"key">>, DataMap),
     Value = maps:get(<<"value">>, DataMap),
-    TTL = maps:get(<<"key">>, DataMap, ?TTL),
+    TTL = maps:get(<<"ttl">>, DataMap, ?TTL),
     ok = cache_server:insert(?TABLENAME, Key, Value, TTL),
     [{<<"result">>, <<"ok">>}];
 
-request_fun(#{action := <<"lookup">>} = DataMap) ->
+request_fun(#{<<"action">> := <<"lookup">>} = DataMap) ->
     Key = maps:get(<<"key">>, DataMap),
     Result = cache_server:lookup(?TABLENAME, Key),
     Res2 = case Result of
@@ -32,7 +32,7 @@ request_fun(#{action := <<"lookup">>} = DataMap) ->
     end,
     [{<<"result">>, Res2}];
 
-request_fun(#{action := <<"lookup_by_date">>} = DataMap) ->
+request_fun(#{<<"action">> := <<"lookup_by_date">>} = DataMap) ->
     DateFromBin = maps:get(<<"date_from">>, DataMap),
     DateToBin = maps:get(<<"date_to">>, DataMap),
     DateFrom = help_funs:date_binary_to_erlang_time(DateFromBin),
@@ -41,7 +41,7 @@ request_fun(#{action := <<"lookup_by_date">>} = DataMap) ->
     Result = help_funs:proplist_to_result(KeyValueList),
     [{<<"result">>, Result}];
 
-request_fun(DataMap) ->
+request_fun(_DataMap) ->
     [{<<"result">>, <<"request not found">>}].
 
 

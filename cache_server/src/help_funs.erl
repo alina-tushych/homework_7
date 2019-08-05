@@ -47,10 +47,10 @@ lookup_by_range(TableName, Key, DateFrom, DateTo, AccList) ->
     end,
     lookup_by_range(TableName, NextKey, DateFrom, DateTo, NewAccList).
 
-date_binary_to_erlang_time(DateBin) ->
-    [DateBin, TimeBin] = binary:split(DateBin, <<" ">>),
-    [YearBin, MonthBin, DayBin] = binary:split(DateBin, <<"/">>),
-    [HBin, MBin, SecBin]= binary:split(TimeBin, <<":">>),
+date_binary_to_erlang_time(DateTimeBin) ->
+    [DateBin, TimeBin] = binary:split(DateTimeBin, <<" ">>),
+    [YearBin, MonthBin, DayBin] = binary:split(DateBin, <<"/">>, [global]),
+    [HBin, MBin, SecBin]= binary:split(TimeBin, <<":">>, [global]),
     {
         {binary_to_integer(YearBin), binary_to_integer(MonthBin), binary_to_integer(DayBin)}, 
         {binary_to_integer(HBin), binary_to_integer(MBin), binary_to_integer(SecBin)}

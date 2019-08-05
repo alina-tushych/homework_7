@@ -4,6 +4,11 @@
 
 
 -export([
+    start/0,
+    stop/0
+]).
+
+-export([
     start_link/2,
     insert/4,
     lookup/2,
@@ -23,6 +28,12 @@
 -define(SERVER, ?MODULE).
 
 -record(state, {}).
+
+start() ->
+    application:ensure_all_started(?MODULE, permanent).
+
+stop() ->
+    application:stop(?MODULE).
 
 start_link(TableName, DropIntervalProp) ->
     DropInterval = proplists:get_value(drop_interval, DropIntervalProp),

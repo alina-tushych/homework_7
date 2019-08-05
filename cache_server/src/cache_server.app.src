@@ -5,8 +5,12 @@
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib
-                  %%,crypto, ranch, cowlib, cowboy, jsx
+                  stdlib,
+                  crypto,
+                  ranch,
+                  cowlib,
+                  cowboy,
+                  jsx
                  ]},
   {mod, { cache_server_app, []}},
   {env, []}
